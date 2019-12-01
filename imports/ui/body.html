@@ -1,0 +1,123 @@
+<body style ="background: black; font-family: 'Signika', sans-serif;">
+    <header>
+      {{> home}}
+    </header>
+</body>
+
+<!--Templates-->
+
+<template name="home">
+      <br>
+      <div class="container" style="
+        max-width: 100%;
+        max-height: 100%;
+        margin: 0 auto;
+        min-height: 100%; 
+        background: url('https://images.unsplash.com/photo-1542813811-320c90aff93e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+
+          <!--Área do usuário logado-->
+          {{#if currentUser}}
+            {{> dashboard}}
+          <!--Fim da área do usuário logado-->
+          {{else}}
+          <!--Area do usuario nao-logado-->
+            <center><h1 style="color: white;">Usuário não-logado</h1>
+            <div class="container" style="background: transparent;">{{> register}}</div></center>
+            {{> login}}
+          <!--Fim da area do usuario nao-logado-->
+          {{/if}}
+        <br>
+        <br>
+        <br>
+      </div>
+
+      <!--{{#if currentUser}}
+        <form class="new-task">
+          <input type="text" name="text" placeholder="Type to add new tasks" />
+        </form>
+      {{/if}}-->
+</template>
+
+<template name="dashboard">
+    <center>
+      <h1 style="color: orange;">Login efetuado com sucesso.</h1><br>
+      <button type="button" class="logout btn btn-danger">Sair da conta</button>
+    </center>
+</template>
+
+<template name="register">
+          <!-- Botão de Cadastro com Modal -->
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
+          Não possui uma conta? Clique aqui
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cadastro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">E-mail</label>
+                    <input type="email" name="registerEmail">
+                    <small id="emailHelp" class="form-text text-muted">Nunca compartilharemos seu e-mail com ninguém.</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Senha</label>
+                    <input type="password" name="registerPassword">
+                  </div>
+                  <input type="submit" value="Register">
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+</template>
+
+<template name="login">
+  <center>
+    <div style="font-family: 'Signika', sans-serif;">
+        <br>
+        <br>
+      <div class="card" style="
+        max-width: 400px;
+        margin: 0 auto;
+        min-height: 100%;
+        ">
+        <div class="card-body">
+          <h6>Iniciar sessão</h6>
+          <!--Botão para login com o Google -->
+            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-lang="pt-BR"></div>
+          <!--Fim Botão para login com Google-->
+          <br>
+          <p>Entre com sua conta e compre com segurança</p>
+          <form>
+            <div class="form-group">
+              <label for="exampleInputEmail1">E-mail</label>
+              <input type="email" name="loginEmail">
+              <small id="emailHelp" class="form-text text-muted">Nunca compartilharemos seu e-mail com ninguém.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Senha</label>
+              <input type="password" name="loginPassword">
+            </div>
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Lembrar-me</label>
+            </div>
+            <input type="submit" value="Login">
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </center>
+</template>
