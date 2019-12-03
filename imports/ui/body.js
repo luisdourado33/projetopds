@@ -39,26 +39,30 @@ if(Meteor.isClient){
         Meteor.logout();
     },
 
-    'submit .novo-produto'(event) {
-      // Prevent default browser form submit
+    'click .cadastro': function(event){
       event.preventDefault();
-  
-      // Get value from form element
-      const target = event.target;
-      const texto = target.texto.value;
-      const preco = target.preço.value;
-      const descricao = target.descricao.value;
-      const categoria = target.categoria.value;
-  
-      // Insert a task into the collection
-      Meteor.call('produtos.insert', texto, preco, descricao, categoria);
-    },
-
-    'click .delete'(){
-      Meteor.call('ListaProdutos.remove', this._id);
+      Router.go('cadastro-item');
     },
   });
 }
+
+Template.cadastroItem.events({
+  'submit form': function(event) {
+    // Prevent default browser form submit
+    event.preventDefault();
+
+    // Get value from form element
+    const target = event.target;
+    const texto = target.texto.value;
+    const preço = target.preço.value;
+    const descricao = target.descricao.value;
+    const categoria = target.categoria.value;
+
+    // Insert a task into the collection
+    Meteor.call('produtos.insert', texto, preço, descricao, categoria);
+    alert("Item adicionado!");
+  },
+});
 
 
 Template.body.onCreated(function bodyOnCreated() {
@@ -72,7 +76,7 @@ Template.body.onCreated(function bodyOnCreated() {
 });
 
 
-Template.dashboard.helpers({
+Template.cadastroItem.helpers({
   produtos(){
     return ListaProdutos.find({}, { sort: { createdAt: -1 } });
   },
@@ -119,7 +123,10 @@ Template.body.events({
 
 // Rotas
 
-
+Router.route('/cadastro-item', function(){
+  this.render('cadastroItem',{
+  });
+});
 
 Router.route('/', function () {
   this.render('home', {
@@ -128,4 +135,3 @@ Router.route('/', function () {
 
 
 // Banco de Dados
-

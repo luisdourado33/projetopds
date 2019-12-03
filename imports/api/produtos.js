@@ -13,7 +13,7 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  
+
   'produtos.insert'(texto, preço, descricao, categoria) {
     check(texto, String);
     check(preço, String);
@@ -22,7 +22,7 @@ Meteor.methods({
 
     ListaProdutos.insert({
       texto,
-      preco,
+      preço,
       descricao,
       categoria,
       createdAt: new Date(), // Data de adicao no BD
