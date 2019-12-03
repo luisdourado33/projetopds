@@ -1,6 +1,6 @@
-<body style ="background: black; font-family: 'Signika', sans-serif;">
-    <header>
-      {{> home}}
+<body style ="font-family: 'Signika', sans-serif; background: black;">
+    <header style="color: black;">
+    <!-- Nao colocar nada aqui -->
     </header>
 </body>
 
@@ -13,15 +13,15 @@
         max-height: 100%;
         margin: 0 auto;
         min-height: 100%; 
-        background: url('https://images.unsplash.com/photo-1542813811-320c90aff93e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+        background: url('https://images.unsplash.com/photo-1554393152-9734c724b442?ixlib=rb-1.2.1&auto=format&fit=crop&w=1334&q=80');">
 
           <!--Área do usuário logado-->
-          {{#if currentUser}}
+          {{#if currentUser}} 
             {{> dashboard}}
           <!--Fim da área do usuário logado-->
           {{else}}
           <!--Area do usuario nao-logado-->
-            <center><h1 style="color: white;">Usuário não-logado</h1>
+            <center><h1 style="color: white;">Sax Som</h1>
             <div class="container" style="background: transparent;">{{> register}}</div></center>
             {{> login}}
           <!--Fim da area do usuario nao-logado-->
@@ -40,10 +40,81 @@
 
 <template name="dashboard">
     <center>
-      <h1 style="color: orange;">Login efetuado com sucesso.</h1><br>
-      <button type="button" class="logout btn btn-danger">Sair da conta</button>
+<!-- Adicionar instrumento
+  <form class="novo-produto">
+    <input type="text" name="texto" placeholder="Título" />
+    <input type="text" name="preço" placeholder="Preço" />
+    <input type="text" name="descricao" placeholder="Descrição" />
+    <input type="text" name="categoria" placeholder="Categoria" />
+    <input type="submit" name="novo-produto" />
+  </form>
+Adicionar Instrumento-->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Sax Som</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Alterna navegação">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <!--<li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(Página atual)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Destaques</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Preços</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Link dropdown
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">Ação</a>
+                <a class="dropdown-item" href="#">Outra ação</a>
+                <a class="dropdown-item" href="#">Algo mais aqui</a>
+              </div>
+            </li>-->
+                  <button type="button" class="logout btn btn-danger">Sair da conta</button>
+          </ul>
+        </div>
+      </nav>
     </center>
+<br>
+<div class="jumbotron">
+  <h1 class="display-4">Olá, mundo!</h1>
+  <p class="lead">Este é um simples componente jumbotron para chamar mais atenção a um determinado conteúdo ou informação.</p>
+  <hr class="my-4">
+  <p>Ele usa classes utilitárias para tipografia e espaçamento de conteúdo, dentro do maior container.</p>
+  <a class="btn btn-primary btn-lg" href="#" role="button">Leia mais</a>
+</div>
+<br>
+<button type="button" class="btn btn-warning">Últimos adicionados</button>
+<br>
+<br>
+<!--Secao de destaques-->
+<div class="row">
+  {{#each produtos}}
+  <div class="col-sm-2">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{texto}}</h5>
+        <p class="badge badge-pill badge-warning">Categoria: {{categoria}}</p>
+        <p class="badge badge-pill badge-success">{{preço}}</p>
+        <p class="card-text">{{descricao}}</p>
+        <a href="#" class="btn btn-primary btn-sm">Comprar</a>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
+<!--Secao de destaques-->
+
+<br>
+<br>
+<br>
 </template>
+
 
 <template name="register">
           <!-- Botão de Cadastro com Modal -->

@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
 import { Accounts } from 'meteor/accounts-base';
 import { Tasks } from '../api/tasks.js';
+import { ListaProdutos } from '../api/produtos.js';
 
 import './task.js';
 import './body.html';
@@ -30,11 +31,32 @@ if(Meteor.isClient){
     }
     });
 
+
+
   Template.dashboard.events({
     'click .logout': function(event){
         event.preventDefault();
         Meteor.logout();
-    }
+    },
+
+    'submit .novo-produto'(event) {
+      // Prevent default browser form submit
+      event.preventDefault();
+  
+      // Get value from form element
+      const target = event.target;
+      const texto = target.texto.value;
+      const preco = target.preço.value;
+      const descricao = target.descricao.value;
+      const categoria = target.categoria.value;
+  
+      // Insert a task into the collection
+      Meteor.call('produtos.insert', texto, preco, descricao, categoria);
+    },
+
+    'click .delete'(){
+      Meteor.call('ListaProdutos.remove', this._id);
+    },
   });
 }
 
@@ -44,8 +66,23 @@ Template.body.onCreated(function bodyOnCreated() {
   Meteor.subscribe('tasks');
 });
 
+Template.body.onCreated(function bodyOnCreated() {
+  this.state = new ReactiveDict();
+  Meteor.subscribe('produtos');
+});
+
+
+Template.dashboard.helpers({
+  produtos(){
+    return ListaProdutos.find({}, { sort: { createdAt: -1 } });
+  },
+});
 
 Template.body.helpers({
+  produtos(){
+    return ListaProdutos.find({}, { sort: { createdAt: -1 } });
+  },
+
   tasks() {
     const instance = Template.instance();
     if (instance.state.get('hideCompleted')) {
@@ -82,8 +119,13 @@ Template.body.events({
 
 // Rotas
 
+
+
 Router.route('/', function () {
   this.render('home', {
-    data: function () { return Items.findOne({_id: this.params._id}); }
   });
 });
+
+
+// Banco de Dados
+
