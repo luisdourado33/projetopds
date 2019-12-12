@@ -4,34 +4,54 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 import { Accounts } from 'meteor/accounts-base';
 import { Tasks } from '../api/tasks.js';
 import { ListaProdutos } from '../api/produtos.js';
+import { Mongo } from 'meteor/mongo';
 
 import './task.js';
 import './body.html';
 
+
 if(Meteor.isClient){
+
   Template.register.events({
     'submit form': function(event) {
         event.preventDefault();
         var emailVar = event.target.registerEmail.value;
+        var firstnameVar = event.target.registerFirstname.value;
+        var lastnameVar = event.target.registerLastname.value;
         var passwordVar = event.target.registerPassword.value;
+
         Accounts.createUser({
             email: emailVar,
+            firstName: firstnameVar,
+            lastName: lastnameVar,
             password: passwordVar
         });
-      Router.go('/');
+      alert('Usuário ' + firstnameVar + ' criado com sucesso!');
     }
-  });
+  },
 
+  );
+
+  
   Template.login.events({
     'submit form': function(event){
       event.preventDefault();
       var emailVar = event.target.loginEmail.value;
       var passwordVar = event.target.loginPassword.value;
-      Meteor.loginWithPassword(emailVar, passwordVar);
+
+      Meteor.loginWithPassword(emailVar, passwordVar, function error() {
+          Router.go('/home');
+      });
     }
     });
 
 
+  Template.navSuperior.events({
+    'click .logout': function(event){
+      event.preventDefault();
+      Meteor.logout();
+  }
+});
 
   Template.dashboard.events({
     'click .logout': function(event){
@@ -61,6 +81,7 @@ Template.cadastroItem.events({
     // Insert a task into the collection
     Meteor.call('produtos.insert', texto, preço, descricao, categoria);
     alert("Item adicionado!");
+    
   },
 });
 
@@ -68,6 +89,19 @@ Template.cadastroItem.events({
 Template.body.onCreated(function bodyOnCreated() {
   this.state = new ReactiveDict();
   Meteor.subscribe('tasks');
+});
+
+Template.home.helpers({
+  usuarios(){
+    return Meteor.users.find();
+  }
+});
+
+
+Template.navSuperior.helpers({
+  usuarios(){
+    return Meteor.users.find();
+  }
 });
 
 Template.body.onCreated(function bodyOnCreated() {
@@ -82,7 +116,8 @@ Template.cadastroItem.helpers({
   },
 });
 
-Template.body.helpers({
+
+Template.dashboard.helpers({
   produtos(){
     return ListaProdutos.find({}, { sort: { createdAt: -1 } });
   },
@@ -122,16 +157,17 @@ Template.body.events({
 });
 
 // Rotas
-
 Router.route('/cadastro-item', function(){
   this.render('cadastroItem',{
   });
 });
 
-Router.route('/', function () {
+Router.route('/home', function () {
   this.render('home', {
   });
 });
 
-
-// Banco de Dados
+Router.route('/', function () {
+  this.render('inicio', {
+  });
+});
